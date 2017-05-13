@@ -10,6 +10,7 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const localStrategy = require('passport-local').Strategy;
 const app = express();
+const dbHelper = require('./dbHelper.js');
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({
@@ -24,6 +25,12 @@ app.use(session({
   resave: true,
   saveUninitialized: true
 }));
+
+app.post('/add/user', function(req, res){
+  console.log('add/user');
+  dbHelper.addUser(req.body, res);
+});
+
 
 const port = process.env.PORT || 3005;
 app.listen(port,(err) => {
