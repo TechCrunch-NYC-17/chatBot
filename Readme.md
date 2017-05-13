@@ -1,5 +1,5 @@
 Chat Bot
 
-###To Run
+### To Run
 
 `SLACK_API_TOKEN=[insert API token here] node server/server.js`
