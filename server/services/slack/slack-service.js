@@ -8,7 +8,10 @@ const token = process.env.SLACK_API_TOKEN || ''; //see section above on sensitiv
 
 const web = new WebClient(token);
 
-
+/**
+ *  Fetches all messages grouped by user
+ *  e.g. [{user: 'U1925EOUP' messages: ['hello', 'goodbye', 'thank you', etc..]}, etc..]
+ */
 export const getUserPublicMessages = () => {
   return getChannelHistories()
     .then(logs => {
