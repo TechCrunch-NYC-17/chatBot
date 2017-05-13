@@ -22,6 +22,42 @@ const dbFunc = {
       }
       res.send(found);
     });
+  },
+  addMessage: function(message, res) {
+      let newMessage= new Model.Message(message);
+      newMessage.save(function(err){
+        if(err) {
+          console.log('error in saving the hash to database');
+        }else{
+          res.status(200).send('message added to DB');
+        }
+      });
+  },
+  getMessage: function(req, res) {
+    Model.Message.find({}, function(err, found) {
+      if(err){
+        console.log('error in fetching hashes', err);
+      }
+      res.send(found);
+    });
+  },
+  addChannel: function(channel, res) {
+      let newUser = new Model.User(user);
+      newChannel.save(function(err){
+        if(err) {
+          console.log('error in saving the hash to database');
+        }else{
+          res.status(200).send('user added to DB');
+        }
+      });
+  },
+  getChannel: function(req, res) {
+    Model.Channel.find({}, function(err, found) {
+      if(err){
+        console.log('error in fetching hashes', err);
+      }
+      res.send(found);
+    });
   }
 };
 

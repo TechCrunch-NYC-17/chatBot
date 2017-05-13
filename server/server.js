@@ -32,6 +32,10 @@ app.post('/add/user', function(req, res){
   dbHelper.addUser(req.body, res);
 });
 
+app.post('/add/channel', function(req, res){
+  console.log('add/user');
+  dbHelper.addChannel(req.body, res);
+});
 
 const port = process.env.PORT || 3000;
 
