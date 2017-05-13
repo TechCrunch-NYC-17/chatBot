@@ -15,6 +15,7 @@ app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({
   extended:true
 }));
+require('./routes.js')(app);
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/../client')));
 app.use(cookieParser());
@@ -25,7 +26,7 @@ app.use(session({
   saveUninitialized: true
 }));
 
-const port = process.env.PORT || 3005;
+const port = process.env.PORT || 3000;
 app.listen(port,(err) => {
   console.log("Listening on port " + port);
 });
