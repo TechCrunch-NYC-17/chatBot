@@ -8,13 +8,17 @@ const dbFunc = {
   addUser: function(user, res) {
     console.log('user', user)
       let newUser = new Model.User(user);
-      newUser.save(function(err){
-        if(err) {
-          console.log('error in saving the hash to database');
-        }else{
-          // res.status(200).send('user added to DB');
+      newUser.find({name: newUser.name}, (user, err) => {
+        if(!user) {
+          newUser.save(function(err){
+            if(err) {
+              console.log('error in saving the hash to database');
+            }else{
+              // res.status(200).send('user added to DB');
+            }
+          });          
         }
-      });
+      })
   },
   getUsers: function(req, res) {
     Model.User.find({}, function(err, found) {
