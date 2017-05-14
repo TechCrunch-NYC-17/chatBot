@@ -21,7 +21,11 @@ const watsonParserWholeDocument = (arr) => {
 const handleMessages = (user, messages) => {
   return new Promise((resolve, reject) => {
     let result = [];
-    messages.map(message => result.push(analyze(message)))
+    messages.map(message => {
+      if(message) {
+        result.push(analyze(message))
+      }
+    })
     Promise.all(result).then(res => resolve({user: user, tones:res}))
   })
 }
