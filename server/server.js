@@ -12,18 +12,20 @@ import { parseUserSentiment } from './services/misc/parse-user-sentiment-service
 require('./routes.js')(app);
 getChannelUsers().then(users => {
   users.forEach((user, idx) => {
-    console.log(user.id);
-    let userObj = {
-      name: user.name,
-      slackId: user.id,
-      teamId: user.team_id
+    if(user){
+      let userObj = {
+        name: user.name,
+        slackId: user.id,
+        teamId: user.team_id
+      }
+      dbHelper.addUser(userObj)
     }
-    dbHelper.addUser(userObj)
   })
 }).catch(err => console.log(err));
 
-
-getUserPublicMessages()
+setInterval(()=>{
+  let date = new Date()
+  getUserPublicMessages()
   .then(result => getSentimentsForAllUsers(result))
   .then(res => {
       res.forEach(tone => {
@@ -35,22 +37,24 @@ getUserPublicMessages()
       });
   })
   .catch((err) => console.error(err));
+},1000 * 60 * 20)
+
 
 // app.post('/add/user', function(req, res){
 //   dbHelper.addUser(req.body, res);
 // });
 
-app.post('/add/channel', function(req, res){
-  // console.log('add/user');
-  dbHelper.addChannel(req.body, res);
-});
+// app.post('/add/channel', function(req, res){
+//   // console.log('add/user');
+//   dbHelper.addChannel(req.body, res);
+// });
 
-app.get('/get/users', function(req, res) {
-  getChannelUsers()
-  .then(res =>{
-    // console.log('res', res)
-  });
-})
+// app.get('/get/users', function(req, res) {
+//   getChannelUsers()
+//   .then(res =>{
+//     // console.log('res', res)
+//   });
+// })
 
 const port = process.env.PORT || 3000;
 

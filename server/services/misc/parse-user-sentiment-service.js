@@ -16,7 +16,7 @@ const toNumberEmoji = (num) => {
 export const parseUserSentiment = ({userName, emotion_tone, language_tone, social_tone}) => {
 
   let str = `Hello, ${userName}!\n\n`;
-  str += `Here are your stats\n\n`;
+  str += `Here are your tone analysis stats\n\n`;
 
   str += '*Emotional Tone*:\n';
   str += `:angry: : ${toNumberEmoji(_.find(emotion_tone, {tone_id: 'anger'}).score)}\n`;
@@ -34,9 +34,10 @@ export const parseUserSentiment = ({userName, emotion_tone, language_tone, socia
   str += `:hugging_face: : ${toNumberEmoji(_.find(social_tone, {tone_id: 'openness_big5'}).score)}\n`;
   str += `:upside_down_face: : ${toNumberEmoji(_.find(social_tone, {tone_id: 'conscientiousness_big5'}).score)}\n`
   str += `:stuck_out_tongue_winking_eye: : ${toNumberEmoji(_.find(social_tone, {tone_id: 'extraversion_big5'}).score)}\n`;
-  str += `:smile: : ${toNumberEmoji(_.find(social_tone, {tone_id: 'agreeableness_big5'}).score)}\n`;
-  str += `:angry: :disappointed: :fearful: :joy: :white_frowning_face: : ${toNumberEmoji(_.find(social_tone, {tone_id: 'emotional_range_big5'}).score)}\n`;
+  str += `:smile: : ${toNumberEmoji(_.find(social_tone, {tone_id: 'agreeableness_big5'}).score)}\n\n`;
 
+  str += `*Overall*:\n`;
+  str += `:angry: :white_frowning_face: :neutral_face: :slightly_smiling_face: :grinning: : ${toNumberEmoji(_.find(social_tone, {tone_id: 'emotional_range_big5'}).score)}\n`;
 
   return str;
 }
