@@ -82,7 +82,6 @@ const getSentimentsForAllUsers = (userData) => {
 };
 
 const filterMessagesArray = messages => {
-  console.log()
   let result = [];
   messages.forEach(message => {
     if(!message.includes('joined') && !message.includes('left') && !message.includes('integration')){
@@ -94,7 +93,6 @@ const filterMessagesArray = messages => {
 
 const getSentimentsForUser = ({user, messages}) => {
   messages = filterMessagesArray(messages);
-  console.log('Messages: ', messages)
   if(messages.length > 0){
     messages = messages.join('\n');
     return toneAnalyzer(messages)
