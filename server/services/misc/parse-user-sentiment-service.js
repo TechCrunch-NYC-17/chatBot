@@ -16,7 +16,7 @@ const toNumberEmoji = (num) => {
 export const parseUserSentiment = ({userName, emotion_tone, language_tone, social_tone}) => {
 
   let str = `Hello, ${userName}!\n\n`;
-  str += `Here are your tone analysis stats\n\n`;
+  str += `Here are your tone analysis stats (out of 5)\n\n`;
 
   str += '*Emotional Tone*:\n';
   str += `:angry: : ${toNumberEmoji(_.find(emotion_tone, {tone_id: 'anger'}).score)}\n`;
