@@ -30,13 +30,13 @@ getChannelUsers().then(users => {
  * setInterval will run every 20 minutes and check for the day and hour
  * It will dispatch the stats for a user every Monday between 9 and 10am
  */
-// setInterval(()=>{
-//   let date = new Date();
-//   let day = date.getDay();
-//   let hour = date.getHours();
-//   let flag = false;
-//   if(day === 1 && (hour > 9 && hour < 10)) {
-//     if(!flag){
+setInterval(()=>{
+  let date = new Date();
+  let day = date.getDay();
+  let hour = date.getHours();
+  let flag = false;
+  if(day === 1 && (hour > 9 && hour < 10)) {
+    if(!flag){
       getUserPublicMessages()
       .then(result => getSentimentsForAllUsers(result))
       .then(res => {
@@ -48,17 +48,17 @@ getChannelUsers().then(users => {
                 tone.userName = res[0].name;
                 postMessage(tone.user, parseUserSentiment(tone));
               }
-              // flag = true;
+              flag = true;
             })
           }
         });
       })
       .catch((err) => console.error(err));
-//     }
-//   } else {
-//     flag = false;
-//   }
-// },1000*60*20);
+    }
+  } else {
+    flag = false;
+  }
+},1000*60*20);
 
 const port = process.env.PORT || 3000;
 
