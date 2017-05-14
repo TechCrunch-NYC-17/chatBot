@@ -24,20 +24,30 @@ getChannelUsers().then(users => {
 }).catch(err => console.log(err));
 
 setInterval(()=>{
-  let date = new Date()
-  getUserPublicMessages()
-  .then(result => getSentimentsForAllUsers(result))
-  .then(res => {
-      res.forEach(tone => {
-        getUser(tone.user)
-          .then(res => {
-            tone.userName = res[0].name;
-            postMessage(tone.user, parseUserSentiment(tone))
-          })
-      });
-  })
-  .catch((err) => console.error(err));
-},1000 * 60 * 20)
+  let date = new Date();
+  let day = date.getDay();
+  let hour = date.getHours();
+  let flag = false;
+  if(day === 1 && (hour > 9 && hour < 10)) {
+    if(!flag){
+      getUserPublicMessages()
+      .then(result => getSentimentsForAllUsers(result))
+      .then(res => {
+        res.forEach(tone => {
+          getUser(tone.user)
+            .then(res => {
+              tone.userName = res[0].name;
+              postMessage(tone.user, parseUserSentiment(tone));
+              flag = true;
+            })
+        });
+      })
+      .catch((err) => console.error(err));
+    }
+  } else {
+    flag = false;
+  }
+},1000*60*20);
 
 
 // app.post('/add/user', function(req, res){
