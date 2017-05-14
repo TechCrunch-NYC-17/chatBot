@@ -31,7 +31,6 @@ const analyze = (message) => {
       reject(err)
     } else {
       let parsed = watsonParserWholeDocument(tone)
-      // console.log('Parsed: ', parsed);
       resolve(parsed)
     }
   })})
@@ -40,11 +39,8 @@ const analyze = (message) => {
 const analyzeText = (slackData) => {
   if(Array.isArray(slackData)){
     let result = []
-    // console.log('SlackData: ',slackData);
     slackData.map(userData =>{
-      // console.log('userData: ', userData)
       let userObj = {user: userData.user, tones:[]};
-      // let temp = [];
       result.push(handleMessages(userData.user,userData.messages))
     })
     return Promise.all(result).then(help => {
