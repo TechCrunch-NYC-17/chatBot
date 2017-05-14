@@ -44,8 +44,10 @@ getChannelUsers().then(users => {
           if(tone){
             getUser(tone.user)
             .then(res => {
-              tone.userName = res[0].name;
-              postMessage(tone.user, parseUserSentiment(tone));
+              if(res[0]){
+                tone.userName = res[0].name;
+                postMessage(tone.user, parseUserSentiment(tone));
+              }
               // flag = true;
             })
           }
