@@ -10,25 +10,32 @@ const tone_analyzer = watson.tone_analyzer({
 const watsonParserWholeDocument = (arr) => {
   let obj = {};
   arr.document_tone.tone_categories.forEach(a=>{
+    a.category_name = a.category_name.split(' ')
+    a.category_name[0] = a.category_name[0].toLowerCase()
+    console.log('CATEGORY Name: ', a.category_name)
+    a.category_name = a.category_name.join('')
     obj[a.category_name] = {};
     a.tones.forEach(tone => {
-      obj[a.category_name][tone.tone_name] = tone.score
+      obj[a.category_name][tone.tone_name.toLowerCase()] = tone.score
     })
   });
+  console.log('OBJ: ', obj)
   return obj
 };
 
-const analyzeText = (message) => {
-  if(Array.isArray(message)){
-    console.log(array);
+const analyzeText = (slackData) => {
+  if(Array.isArray(slackData)){
+    console.log('SlackData: ',slackData);
+    slackData.map(userData =>{
+      console.log('userData: ', userData)
+    })
   } else {
-    tone_analyzer.tone({text: message}, (err, tone) => {
+    tone_analyzer.tone({text: slackData}, (err, tone) => {
       if (err){
         console.log(err)
         res.send(err);
       }
       else{
-        console.log(watsonParserWholeDocument(tone))
         return watsonParserWholeDocument(tone);
       }
     })
@@ -38,5 +45,4 @@ const analyzeText = (message) => {
 
 module.exports = {
   analyzeText,
-  // watsonParserWholeDocument
 };

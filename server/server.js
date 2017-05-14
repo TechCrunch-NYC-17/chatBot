@@ -1,11 +1,16 @@
-const express = require('express');
-const path = require('path')
-const router = require('./routes.js')
-const app = express();
-const dbHelper = require('./dbHelper.js');
+import express from 'express';
+import path from 'path'
+import router from './routes.js';
+import dbHelper from './dbHelper.js';
 import { getUserPublicMessages } from "./services/slack/slack-messages-service";
+import Watson from './watson';
+const app = express();
 
 require('./routes.js')(app);
+
+getUserPublicMessages().then(result => {
+  Watson.analyzeText('result.splice(0,1)')
+});
 
 app.post('/add/user', function(req, res){
   console.log('add/user');
