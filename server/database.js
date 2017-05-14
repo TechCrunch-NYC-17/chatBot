@@ -4,7 +4,9 @@ mongoose.Promise = global.Promise;
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
+  slackId: String,
   name: String,
+  teamId: String,
   messages: []
 });
 const User = mongoose.model('User', userSchema);
@@ -19,4 +21,4 @@ const channelSchema = new Schema({
 });
 const Channel = mongoose.model('Channel', channelSchema);
 
-module.exports = {User: User, Message: Message};
+module.exports = {User: User, Message: Message, Channel: Channel};

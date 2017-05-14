@@ -11,7 +11,15 @@ import { parseUserSentiment } from './services/misc/parse-user-sentiment-service
 
 require('./routes.js')(app);
 getChannelUsers().then(users => {
-  console.log('users', users)
+  // console.log('users', users)
+  users.forEach((user, idx) => {
+    let userObj = {
+      name: user.name,
+      slackId: user.id,
+      teamId: user.team_id
+    }
+    dbHelper.addUser(userObj)
+  })
 }).catch(err => console.log(err));
 
 
@@ -19,9 +27,9 @@ getUserPublicMessages().then(result => {
   Watson.analyzeText(result.splice(0,1))
 });
 
-app.post('/add/user', function(req, res){
-  dbHelper.addUser(req.body, res);
-});
+// app.post('/add/user', function(req, res){
+//   dbHelper.addUser(req.body, res);
+// });
 
 app.post('/add/channel', function(req, res){
   console.log('add/user');
