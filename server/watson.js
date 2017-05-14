@@ -81,18 +81,33 @@ const getSentimentsForAllUsers = (userData) => {
   return Promise.all(promises);
 };
 
-const getSentimentsForUser = ({user, messages}) => {
-  messages = messages.join('\n');
-  return toneAnalyzer(messages)
-  .then(res => ({tone_categories: res.document_tone.tone_categories}))
-  .then(res => ({user: user, sentiments: res.tone_categories}))
-  .then(res => {
-    let tones = { user: user };
-    res.sentiments.forEach(sentiment => {
-      tones[sentiment.category_id] = sentiment.tones;
-    })
-    return tones;
+const filterMessagesArray = messages => {
+  console.log()
+  let result = [];
+  messages.forEach(message => {
+    if(!message.includes('joined') && !message.includes('left') && !message.includes('integration')){
+      result.push(message);
+    }
   })
+  return result;
+}
+
+const getSentimentsForUser = ({user, messages}) => {
+  messages = filterMessagesArray(messages);
+  console.log('Messages: ', messages)
+  if(messages.length > 0){
+    messages = messages.join('\n');
+    return toneAnalyzer(messages)
+    .then(res => ({tone_categories: res.document_tone.tone_categories}))
+    .then(res => ({user: user, sentiments: res.tone_categories}))
+    .then(res => {
+      let tones = { user: user };
+      res.sentiments.forEach(sentiment => {
+        tones[sentiment.category_id] = sentiment.tones;
+      })
+      return tones;
+    })
+  }
 };
 
 const toneAnalyzer = (message) => {
