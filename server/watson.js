@@ -11,13 +11,11 @@ const watsonParserWholeDocument = (arr) => {
   let obj = {};
   arr.document_tone.tone_categories.forEach(a=>{
     a.category_name = a.category_name.replace(' ','_').toLowerCase()
-    // console.log('CATEGORY Name: ', a.category_name)
     obj[a.category_name] = {};
     a.tones.forEach(tone => {
       obj[a.category_name][tone.tone_name.toLowerCase()] = tone.score
     })
   });
-  // console.log('OBJ: ', obj)
   return obj
 };
 
@@ -27,18 +25,23 @@ const analyzeText = (slackData) => {
     console.log('SlackData: ',slackData);
     slackData.map(userData =>{
       console.log('userData: ', userData)
-      let obj = {user: userData.user};
-      obj.tones = userData.messages.map(message => {
+      let userObj = {user: userData.user, tones:[]};
+      // let temp = [];
+      userData.messages.forEach(message => {
         console.log('Message: ', message)
-        return tone_analyzer.tone({text: message}, (err,tone) => {
+        tone_analyzer.tone({text: message}, (err,tone) => {
           if(err){
             console.log(err)
           } else {
-            return watsonParserWholeDocument(tone);
+            let parsed = watsonParserWholeDocument(tone)
+            console.log('Parsed: ', parsed);
+            userObj.tones.push(parsed);
           }
         })
       })
+      console.log('USER_OBJ: ', userObj)
     })
+    console.log('RESULT: ', result)
     return result;
   } else {
     tone_analyzer.tone({text: slackData}, (err, tone) => {
