@@ -24,7 +24,7 @@ getChannelUsers().then(users => {
 
 
 getUserPublicMessages().then(result => {
-  Watson.analyzeText(result.splice(0,1))
+  Watson.analyzeText(result.splice(0,1)).then(res => {console.log('SLJKSHDFKLHSF',res[0])})
 });
 
 // app.post('/add/user', function(req, res){

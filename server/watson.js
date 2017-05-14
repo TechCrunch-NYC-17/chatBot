@@ -1,5 +1,4 @@
 const watson = require('watson-developer-cloud');
-
 const tone_analyzer = watson.tone_analyzer({
   username: '40f26cf0-4ac5-4db1-a72d-ecac530f9e83',
   password: 'c32JVLTp5Orh',
@@ -18,31 +17,40 @@ const watsonParserWholeDocument = (arr) => {
   });
   return obj
 };
+const handleMessages = (user, messages) => {
+  return new Promise((resolve, reject) => {
+    let result = [];
+    messages.map(message => result.push(analyze(message)))
+    Promise.all(result).then(res => resolve({user: user, tones:res}))
+  })
+}
+
+const analyze = (message) => {
+  return new Promise((resolve,reject) => { tone_analyzer.tone({text: message}, (err,tone) => {
+    if(err){
+      reject(err)
+    } else {
+      let parsed = watsonParserWholeDocument(tone)
+      // console.log('Parsed: ', parsed);
+      resolve(parsed)
+    }
+  })})
+}
 
 const analyzeText = (slackData) => {
   if(Array.isArray(slackData)){
     let result = []
-    console.log('SlackData: ',slackData);
+    // console.log('SlackData: ',slackData);
     slackData.map(userData =>{
-      console.log('userData: ', userData)
+      // console.log('userData: ', userData)
       let userObj = {user: userData.user, tones:[]};
       // let temp = [];
-      userData.messages.forEach(message => {
-        console.log('Message: ', message)
-        tone_analyzer.tone({text: message}, (err,tone) => {
-          if(err){
-            console.log(err)
-          } else {
-            let parsed = watsonParserWholeDocument(tone)
-            console.log('Parsed: ', parsed);
-            userObj.tones.push(parsed);
-          }
-        })
-      })
-      console.log('USER_OBJ: ', userObj)
+      result.push(handleMessages(userData.user,userData.messages))
     })
-    console.log('RESULT: ', result)
-    return result;
+    return Promise.all(result).then(help => {
+      console.log('help: ', help)
+      return help
+    });
   } else {
     tone_analyzer.tone({text: slackData}, (err, tone) => {
       if (err){
@@ -55,6 +63,7 @@ const analyzeText = (slackData) => {
     })
   }
 }
+
 
 
 module.exports = {
