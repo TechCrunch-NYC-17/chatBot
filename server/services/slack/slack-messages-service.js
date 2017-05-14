@@ -14,19 +14,19 @@ const web = new WebClient(SLACK_API_TOKEN);
  */
 export const getUserPublicMessages = () => {
   return getChannelHistories()
-    .then(logs => {
-      return logs.map(log => log.messages);
-    })
-    .then(messages => {
-      return _.flatMap(messages).reduce((userMessages, message) => {
-        if (!_.find(userMessages, {user: message.user})) {
-          userMessages.push({user: message.user, messages: [message.text]});
-        } else {
-          _.find(userMessages, {user: message.user}).messages.push(message.text);
-        }
-        return userMessages
-      }, []);
-    })
+  .then(logs => {
+    return logs.map(log => log.messages);
+  })
+  .then(messages => {
+    return _.flatMap(messages).reduce((userMessages, message) => {
+      if (!_.find(userMessages, {user: message.user})) {
+        userMessages.push({user: message.user, messages: [message.text]});
+      } else {
+        _.find(userMessages, {user: message.user}).messages.push(message.text);
+      }
+      return userMessages
+    }, []);
+  })
 };
 
 
@@ -37,21 +37,21 @@ export const getUserPublicMessages = () => {
 
 const getChannelHistories = () => {
   return getAllChannels()
-    .then(channels => {
-      let histories = [];
-      channels.forEach(channel => {
-        histories.push((webChannelsHistory(channel.id)));
-      });
-      return Promise.all(histories);
+  .then(channels => {
+    let histories = [];
+    channels.forEach(channel => {
+      histories.push((webChannelsHistory(channel.id)));
     });
-}
+    return Promise.all(histories);
+  });
+};
 
 
 
 const getAllChannels = () => {
-    return webChannelsList()
-      .then(info => info.channels);
-}
+  return webChannelsList()
+  .then(info => info.channels);
+};
 
 /**
  *  Converts web.channels.list to promise
@@ -69,7 +69,7 @@ const webChannelsList = () => {
       }
     });
   });
-}
+};
 
 
 /**
@@ -87,4 +87,4 @@ const webChannelsHistory = (channel) => {
       }
     });
   });
-}
+};
