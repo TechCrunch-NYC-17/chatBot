@@ -4,14 +4,13 @@ import router from './routes.js';
 import dbHelper from './dbHelper.js';
 import { getUserPublicMessages } from "./services/slack/slack-messages-service";
 import { getChannelUsers } from "./services/slack/slack-user-service.js";
-import Watson from './watson';
+import Watson, {getSentimentsForAllUsers} from './watson';
 const app = express();
 import { postMessage } from "./services/slack/slack-chat-service";
 import { parseUserSentiment } from './services/misc/parse-user-sentiment-service';
 
 require('./routes.js')(app);
 getChannelUsers().then(users => {
-  // console.log('users', users)
   users.forEach((user, idx) => {
     let userObj = {
       name: user.name,
@@ -23,9 +22,14 @@ getChannelUsers().then(users => {
 }).catch(err => console.log(err));
 
 
-getUserPublicMessages().then(result => {
-  Watson.analyzeText(result.splice(0,1)).then(res => {console.log('SLJKSHDFKLHSF',res[0])})
-});
+getUserPublicMessages()
+  .then(result => getSentimentsForAllUsers(result))
+  .then(res => {
+      res.forEach(tone => {
+        postMessage(tone.user, parseUserSentiment(tone))
+      });
+  })
+  .catch((err) => console.error(err));
 
 // app.post('/add/user', function(req, res){
 //   dbHelper.addUser(req.body, res);
@@ -70,9 +74,9 @@ app.listen(port,(err) => {
 //         agreeableness: 0.579473,
 //         emotional_range: 0.287825
 //       }}}];
-
-const sendMessages = (tones) => {
-  tones.forEach(tone => {
-    postMessage(tone.user, parseUserSentiment(tone))
-  });
-}
+//
+// const sendMessages = (tones) => {
+//   tones.forEach(tone => {
+//     postMessage(tone.user, parseUserSentiment(tone))
+//   });
+// }
