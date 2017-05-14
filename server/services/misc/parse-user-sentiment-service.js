@@ -25,30 +25,36 @@ const tone = {user: 'U5BHVEU86',
         emotional_range: 0.287825
       }}};
 
+const toNumberEmoji = (num) => {
+  const toWord = [':zero:', ':one:', ':two:', ':three:', ':four:', ':five:', ':six:', ':seven:', ':eight:', ':nine:', ':ten:']
+};
+
 export const parseUserSentiment = ({user, emotion_tone, language_tone, social_tone}) => {
 
   let str = `Hello, ${user}!\n\n`;
   str += `Here are your stats\n\n`;
 
-  str += 'Emotional Tone:\n';
-  str += `Anger: ${_.find(emotion_tone, {tone_id: 'anger'}).score}\n`;
-  str += `Disgust: ${_.find(emotion_tone, {tone_id: 'disgust'}).score}\n`;
-  str += `Fear: ${_.find(emotion_tone, {tone_id: 'fear'}).score}\n`;
-  str += `Joy: ${_.find(emotion_tone, {tone_id: 'joy'}).score}\n`;
-  str += `Sadness: ${_.find(emotion_tone, {tone_id: 'sadness'}).score}\n\n`;
+  str += '*Emotional Tone*:\n';
+  str += `:angry: : ${_.find(emotion_tone, {tone_id: 'anger'}).score}\n`;
+  str += `:disappointed: : ${_.find(emotion_tone, {tone_id: 'disgust'}).score}\n`;
+  str += `:fearful: : ${_.find(emotion_tone, {tone_id: 'fear'}).score}\n`;
+  str += `:joy: : ${_.find(emotion_tone, {tone_id: 'joy'}).score}\n`;
+  str += `:white_frowning_face: : ${_.find(emotion_tone, {tone_id: 'sadness'}).score}\n\n`;
 
-  str += `Language Tone:\n`;
-  str += `Analytical: ${_.find(language_tone, {tone_id: 'analytical'}).score}\n`;
-  str += `Confident: ${_.find(language_tone, {tone_id: 'confident'}).score}\n`;
-  str += `Tentative: ${_.find(language_tone, {tone_id: 'tentative'}).score}\n\n`;
+  str += `*Language Tone*:\n`;
+  str += `:thinking_face: : ${_.find(language_tone, {tone_id: 'analytical'}).score}\n`;
+  str += `:sunglasses: : ${_.find(language_tone, {tone_id: 'confident'}).score}\n`;
+  str += `:neutral_face: : ${_.find(language_tone, {tone_id: 'tentative'}).score}\n\n`;
 
-  str += `Social Tone:\n`;
-  str += `Openness: ${_.find(social_tone, {tone_id: 'openness_big5'}).score}\n`;
-  str += `Conscientiousness: ${_.find(social_tone, {tone_id: 'conscientiousness_big5'}).score}\n`
-  str += `Extraversion: ${_.find(social_tone, {tone_id: 'extraversion_big5'}).score}\n`;
-  str += `Agreeableness: ${_.find(social_tone, {tone_id: 'agreeableness_big5'}).score}\n`;
-  str += `Emotional Range: ${_.find(social_tone, {tone_id: 'emotional_range_big5'}).score}\n`;
+  str += `*Social Tone*:\n`;
+  str += `:hugging_face: : ${_.find(social_tone, {tone_id: 'openness_big5'}).score}\n`;
+  str += `:upside_down_face: : ${_.find(social_tone, {tone_id: 'conscientiousness_big5'}).score}\n`
+  str += `:stuck_out_tongue_winking_eye: : ${_.find(social_tone, {tone_id: 'extraversion_big5'}).score}\n`;
+  str += `:smile: : ${_.find(social_tone, {tone_id: 'agreeableness_big5'}).score}\n`;
+  str += `:angry: :disappointed: :fearful: :joy: :white_frowning_face: : ${_.find(social_tone, {tone_id: 'emotional_range_big5'}).score}\n`;
 
 
   return str;
 }
+
+console.log(.25393 * 10);

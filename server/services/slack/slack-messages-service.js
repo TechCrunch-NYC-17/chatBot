@@ -88,6 +88,3 @@ const webChannelsHistory = (channel) => {
     });
   });
 }
-
-getUserPublicMessages()
-.then(res => console.log(res));

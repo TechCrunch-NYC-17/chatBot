@@ -36,14 +36,14 @@ getUserPublicMessages()
 // });
 
 app.post('/add/channel', function(req, res){
-  console.log('add/user');
+  // console.log('add/user');
   dbHelper.addChannel(req.body, res);
 });
 
 app.get('/get/users', function(req, res) {
   getChannelUsers()
   .then(res =>{
-    console.log('res', res)
+    // console.log('res', res)
   });
 })
 

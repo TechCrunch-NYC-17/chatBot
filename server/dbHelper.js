@@ -6,7 +6,6 @@ const request = require("request");
 
 const dbFunc = {
   addUser: function(user, res) {
-    console.log('user', user)
       let newUser = new Model.User(user);
       Model.User.find({name: newUser.name}, (user, err) => {
         if(!user) {
