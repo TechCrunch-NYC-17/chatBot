@@ -25,3 +25,4 @@ node_modules/
 # Store
 .env
 .idea/
+server/config/SLACK_API_TOKEN.js

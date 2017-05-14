@@ -1,6 +1,7 @@
 const WebClient = require('@slack/client').WebClient;
-const token = process.env.SLACK_API_TOKEN || ''; //see section above on sensitive data
-const web = new WebClient(token);
+import { SLACK_API_TOKEN } from '../../config/SLACK_API_TOKEN';
+
+const web = new WebClient(SLACK_API_TOKEN);
 
 
 
