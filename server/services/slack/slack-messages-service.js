@@ -88,6 +88,3 @@ const webChannelsHistory = (channel) => {
     });
   });
 }
-
-getAllChannels()
-.then(res => console.log(res));
