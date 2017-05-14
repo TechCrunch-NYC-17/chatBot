@@ -8,7 +8,7 @@ const dbFunc = {
   addUser: function(user, res) {
     console.log('user', user)
       let newUser = new Model.User(user);
-      newUser.find({name: newUser.name}, (user, err) => {
+      Model.User.find({name: newUser.name}, (user, err) => {
         if(!user) {
           newUser.save(function(err){
             if(err) {
