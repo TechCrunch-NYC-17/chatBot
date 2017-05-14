@@ -11,7 +11,7 @@ import { parseUserSentiment } from './services/misc/parse-user-sentiment-service
 require('./routes.js')(app);
 
 getUserPublicMessages().then(result => {
-  Watson.analyzeText('result.splice(0,1)')
+  Watson.analyzeText(result.splice(0,1))
 });
 
 app.post('/add/user', function(req, res){
