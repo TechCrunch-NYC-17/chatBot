@@ -4,9 +4,9 @@
 const WebClient = require('@slack/client').WebClient;
 const _ = require('lodash');
 
-const token = process.env.SLACK_API_TOKEN || ''; //see section above on sensitive data
+import { SLACK_API_TOKEN } from '../../config/SLACK_API_TOKEN';
 
-const web = new WebClient(token);
+const web = new WebClient(SLACK_API_TOKEN);
 
 /**
  *  Fetches all messages grouped by user
