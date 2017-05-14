@@ -4,7 +4,7 @@ import router from './routes.js';
 import dbHelper from './dbHelper.js';
 import { getUserPublicMessages } from "./services/slack/slack-messages-service";
 import { getChannelUsers } from "./services/slack/slack-user-service.js";
-import Watson from './watson';
+import Watson, {getSentimentsForAllUsers} from './watson';
 const app = express();
 import { postMessage } from "./services/slack/slack-chat-service";
 import { parseUserSentiment } from './services/misc/parse-user-sentiment-service';
@@ -23,9 +23,10 @@ getChannelUsers().then(users => {
 }).catch(err => console.log(err));
 
 
-getUserPublicMessages().then(result => {
-  Watson.analyzeText(result.splice(0,1))
-});
+getUserPublicMessages()
+  .then(result => getSentimentsForAllUsers(result))
+  .then(res => console.log(res))
+  .catch((err) => console.error(err));
 
 // app.post('/add/user', function(req, res){
 //   dbHelper.addUser(req.body, res);
