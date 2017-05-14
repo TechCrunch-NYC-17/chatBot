@@ -19,6 +19,14 @@ const dbFunc = {
         }
       })
   },
+  getUser: function(id) {
+    return new Promise((resolve, reject) => {
+      Model.User.find({slackId: id}, function(err, found) {
+        if (err) reject(err);
+        resolve(found);
+      })
+    });
+  },
   getUsers: function(req, res) {
     Model.User.find({}, function(err, found) {
       if(err){

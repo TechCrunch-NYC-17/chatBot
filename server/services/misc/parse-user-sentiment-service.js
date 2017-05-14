@@ -13,9 +13,9 @@ const toNumberEmoji = (num) => {
   return toWord[Math.round(Number(num) * 10)];
 };
 
-export const parseUserSentiment = ({user, emotion_tone, language_tone, social_tone}) => {
+export const parseUserSentiment = ({userName, emotion_tone, language_tone, social_tone}) => {
 
-  let str = `Hello, ${user}!\n\n`;
+  let str = `Hello, ${userName}!\n\n`;
   str += `Here are your stats\n\n`;
 
   str += '*Emotional Tone*:\n';

@@ -1,7 +1,7 @@
 import express from 'express';
 import path from 'path'
 import router from './routes.js';
-import dbHelper from './dbHelper.js';
+import dbHelper, { getUser } from './dbHelper.js';
 import { getUserPublicMessages } from "./services/slack/slack-messages-service";
 import { getChannelUsers } from "./services/slack/slack-user-service.js";
 import Watson, {getSentimentsForAllUsers} from './watson';
@@ -12,6 +12,7 @@ import { parseUserSentiment } from './services/misc/parse-user-sentiment-service
 require('./routes.js')(app);
 getChannelUsers().then(users => {
   users.forEach((user, idx) => {
+    console.log(user.id);
     let userObj = {
       name: user.name,
       slackId: user.id,
@@ -26,7 +27,11 @@ getUserPublicMessages()
   .then(result => getSentimentsForAllUsers(result))
   .then(res => {
       res.forEach(tone => {
-        postMessage(tone.user, parseUserSentiment(tone))
+        getUser(tone.user)
+          .then(res => {
+            tone.userName = res[0].name;
+            postMessage(tone.user, parseUserSentiment(tone))
+          })
       });
   })
   .catch((err) => console.error(err));
