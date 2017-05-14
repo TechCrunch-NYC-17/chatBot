@@ -9,7 +9,7 @@ const app = express();
 require('./routes.js')(app);
 
 getUserPublicMessages().then(result => {
-  Watson.analyzeText('result.splice(0,1)')
+  Watson.analyzeText(result.splice(0,1))
 });
 
 app.post('/add/user', function(req, res){
