@@ -8,10 +8,11 @@ import Watson from './watson';
 const app = express();
 
 require('./routes.js')(app);
-
 getChannelUsers().then(users => {
   console.log('users', users)
-})
+}).catch(err => console.log(err));
+
+
 getUserPublicMessages().then(result => {
   Watson.analyzeText('result.splice(0,1)')
 });

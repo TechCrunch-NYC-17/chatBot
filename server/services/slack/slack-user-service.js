@@ -9,13 +9,13 @@ const token = process.env.SLACK_API_TOKEN || ''; //see section above on sensitiv
 const web = new WebClient(token);
 
 export const getChannelUsers = () => {
-  getAllUsers().then(users=> {
-    console.log('this is the returned users');
+  return getAllUsers().then(users=> {
+    return users;
   })
 };
 
 const getAllUsers = () => {
-  return webChannelsUsers().then(users => users);
+  return webChannelsUsers().then(users => users.members);
 }
 
 /**
