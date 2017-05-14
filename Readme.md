@@ -2,5 +2,5 @@ Chat Bot
 
 ### To Run
 
-'npm install'
+`npm install`
 `npm start`
