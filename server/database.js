@@ -17,6 +17,6 @@ const Message = mongoose.model('Message', messageSchema);
 const channelSchema = new Schema({
   message: String
 });
-const Channel = mongoose.model('Message', channelSchema);
+const Channel = mongoose.model('Channel', channelSchema);
 
 module.exports = {User: User, Message: Message};
