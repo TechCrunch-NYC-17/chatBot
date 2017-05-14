@@ -17,6 +17,7 @@ const watsonParserWholeDocument = (arr) => {
   });
   return obj
 };
+
 const handleMessages = (user, messages) => {
   return new Promise((resolve, reject) => {
     let result = [];
@@ -27,7 +28,7 @@ const handleMessages = (user, messages) => {
     })
     Promise.all(result).then(res => resolve({user: user, tones:res}))
   })
-}
+};
 
 const analyze = (message) => {
   return new Promise((resolve,reject) => { tone_analyzer.tone({text: message}, (err,tone) => {
@@ -38,7 +39,7 @@ const analyze = (message) => {
       resolve(parsed)
     }
   })})
-}
+};
 
 const getWatsonAnalysis = (messages) => {
   messages.forEach(message => {
@@ -51,8 +52,7 @@ const getWatsonAnalysis = (messages) => {
       }
     })
   })
-}
-
+};
 
 const analyzeText = (slackData) => {
   if(Array.isArray(slackData)) {
@@ -71,60 +71,7 @@ const analyzeText = (slackData) => {
     });
     return Promise.all(result);
   }
-}
-//
-//
-//       let promises = [];
-//       userData.messages.forEach(message => {
-//         console.log('Message: ', message)
-//         promises.push(toneAnalyzer(message))
-//         // tone_analyzer.tone({text: message}, (err,tone) => {
-//         //   console.log("getting here");
-//         //   if(err){
-//         //     console.log(err)
-//         //   } else {
-//         //     let parsed = watsonParserWholeDocument(tone)
-//         //     console.log('Parsed: ', parsed);
-//         //     userObj.tones.push(parsed);
-//         //     result.push(userObj);
-//         //   }
-//         //   i++;
-//         // })
-//       })
-//       Promise.all(promises)
-//         .then((res) => {
-//
-//           });
-//       console.log('USER_OBJ: ', userObj);
-//     });
-//     while (true) {
-//       if (i === slackData.length) {
-//         console.log(i);
-//         console.log('RESULT: ', result)
-//         return result;
-//       }
-//     }
-//   } else {
-//     tone_analyzer.tone({text: slackData}, (err, tone) => {
-//       if (err){
-//         console.log(err)
-//         return err;
-//       }
-//       else{
-//         return watsonParserWholeDocument(tone);
-//       }
-//     })
-//   }
-// }
-
-
-// const getSentimentsForAllUsers = (slackData) => {
-//   let promises = [];
-//   slackData.forEach(({user, messages}) => {
-//     promises.push(getSentimentsForUser(user, messages));
-//   });
-//   return Promise.all(promises);
-// }
+};
 
 const getSentimentsForAllUsers = (userData) => {
   let promises = [];
@@ -132,22 +79,21 @@ const getSentimentsForAllUsers = (userData) => {
     promises.push(getSentimentsForUser((user)));
   });
   return Promise.all(promises);
-}
-
+};
 
 const getSentimentsForUser = ({user, messages}) => {
   messages = messages.join('\n');
   return toneAnalyzer(messages)
-    .then(res => ({tone_categories: res.document_tone.tone_categories}))
-    .then(res => ({user: user, sentiments: res.tone_categories}))
-    .then(res => {
-      let tones = { user: user };
-      res.sentiments.forEach(sentiment => {
-        tones[sentiment.category_id] = sentiment.tones;
-      })
-      return tones
+  .then(res => ({tone_categories: res.document_tone.tone_categories}))
+  .then(res => ({user: user, sentiments: res.tone_categories}))
+  .then(res => {
+    let tones = { user: user };
+    res.sentiments.forEach(sentiment => {
+      tones[sentiment.category_id] = sentiment.tones;
     })
-}
+    return tones;
+  })
+};
 
 const toneAnalyzer = (message) => {
   return new Promise((resolve, reject) => {
@@ -156,16 +102,7 @@ const toneAnalyzer = (message) => {
       resolve(res);
     })
   });
-}
-
-//figure out how to keep reference for user
-// getSentimentsForUser({user: 'U1EGV90', messages: ['hello', 'thank you', 'suckit']})
-  // .then(res => console.log(res));
-//
-// getSentimentsForAllUsers([{user: 'U1EGV90', messages: ['hello', 'thank you', 'suckit']}, {user: 'U2EVIO2', messages: ['hai', 'bai', 'welx']}])
-//   .then(res => console.log(res))
-//   .catch(err => console.error(err));
-
+};
 
 module.exports = {
   getSentimentsForAllUsers,
