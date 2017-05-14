@@ -131,7 +131,6 @@ const getSentimentsForUser = ({user, messages}) => {
       })
       return tones
     })
-    .then(res => console.log(res));
 }
 
 const toneAnalyzer = (message) => {
@@ -144,17 +143,11 @@ const toneAnalyzer = (message) => {
 }
 
 //figure out how to keep reference for user
-getSentimentsForUser({user: 'U1EGV90', messages: ['hello', 'thank you', 'suckit']})
-  .then(res => console.log(res));
-
+// getSentimentsForUser({user: 'U1EGV90', messages: ['hello', 'thank you', 'suckit']})
+  // .then(res => console.log(res));
+//
 // getSentimentsForAllUsers([{user: 'U1EGV90', messages: ['hello', 'thank you', 'suckit']}, {user: 'U2EVIO2', messages: ['hai', 'bai', 'welx']}])
-//   .then(res => res.map(({user, tone}) => {
-//     tone.map(aTone => {
-//       console.log(aTone.document_tone);
-//     });
-//     // return {user: user, tone: watsonParserWholeDocument(tone)}
-//   }))
-//   // .then(res => console.log(res))
+//   .then(res => console.log(res))
 //   .catch(err => console.error(err));
 
 module.exports = {

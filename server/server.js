@@ -11,7 +11,6 @@ import { parseUserSentiment } from './services/misc/parse-user-sentiment-service
 
 require('./routes.js')(app);
 getChannelUsers().then(users => {
-  // console.log('users', users)
   users.forEach((user, idx) => {
     let userObj = {
       name: user.name,
@@ -25,7 +24,11 @@ getChannelUsers().then(users => {
 
 getUserPublicMessages()
   .then(result => getSentimentsForAllUsers(result))
-  .then(res => console.log(res))
+  .then(res => {
+      res.forEach(tone => {
+        postMessage(tone.user, parseUserSentiment(tone))
+      });
+  })
   .catch((err) => console.error(err));
 
 // app.post('/add/user', function(req, res){
@@ -71,9 +74,9 @@ app.listen(port,(err) => {
 //         agreeableness: 0.579473,
 //         emotional_range: 0.287825
 //       }}}];
-
-const sendMessages = (tones) => {
-  tones.forEach(tone => {
-    postMessage(tone.user, parseUserSentiment(tone))
-  });
-}
+//
+// const sendMessages = (tones) => {
+//   tones.forEach(tone => {
+//     postMessage(tone.user, parseUserSentiment(tone))
+//   });
+// }
